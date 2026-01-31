@@ -1,0 +1,18 @@
+- get familiar with the figure below ASAP
+![[Pasted image 20250619222419.png]]
+- ci=λ repressor
+- P~L~ P~R~ : lytic (strong promoter)
+- P~RM~: lysogenic (weak promoter) P~RE~：weak
+- 3 operons from right to left (overlapping with two promoters: P~RM~ & P~R~)
+	- O~R1~: ci (lambda repressor binding site)
+	- O~R2~：cro binding site
+	- O~R3~：for both, lower affinity
+- positive feedback: cro/ci binds with the operon on the opposite site respectively
+- Cro is a repressor, but lambda repressor (ci) is not only a repressor
+- N：anti-termination 
+- ci
+	- 四聚体
+- P~RE~(repression establish):
+	- weak promoter
+	- makes antisense cro
+- cII: orc
