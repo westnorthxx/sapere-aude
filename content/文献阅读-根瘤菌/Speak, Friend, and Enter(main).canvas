@@ -1,0 +1,57 @@
+{
+	"nodes":[
+		{"id":"718c51e759810fef","type":"file","file":"图片/Pasted image 20251021204215.png","x":-420,"y":-140,"width":283,"height":400},
+		{"id":"69fed9ab3bdca077","type":"text","text":"促进共生的信号分子","x":20,"y":-440,"width":250,"height":60,"color":"1"},
+		{"id":"d519cbb0334fd77b","type":"file","file":"文献阅读/促进共生的信号因子.canvas","x":440,"y":-511,"width":400,"height":203},
+		{"id":"869ed37cb948020e","type":"text","text":"LysM 受体样激酶的识别","x":20,"y":-150,"width":250,"height":60,"color":"1"},
+		{"id":"0bcbe4f1a7123519","type":"file","file":"文献阅读/共生钙信号转导.canvas","x":440,"y":120,"width":400,"height":240},
+		{"id":"b376c6fa5a210996","type":"text","text":"共生钙信号转导","x":20,"y":210,"width":250,"height":60,"color":"1"},
+		{"id":"bc7e11741c92775f","type":"text","text":"共生信号**LPOs** 由以 **LysM 受体样激酶**为核心的受体复合体识别","x":1240,"y":-320,"width":250,"height":100,"color":"6"},
+		{"id":"8ce05fb2ff7a3bad","type":"text","text":"共生转录网","x":20,"y":520,"width":250,"height":60,"color":"1"},
+		{"id":"f5742f9d063173bd","type":"text","text":"识别后的信号经传递产生核周的**钙离子震荡**，被 **CCaMK **识别","x":1240,"y":12,"width":250,"height":108,"color":"6"},
+		{"id":"e561ad02e8a1ba6f","type":"file","file":"文献阅读/共生转录网.canvas","x":440,"y":449,"width":400,"height":202},
+		{"id":"2b34f136b889e519","type":"text","text":"CCaMK 将信号传至下游，并通过**不同**的转录网产生对根瘤菌与 AMF 的**特异性应答**","x":1240,"y":329,"width":250,"height":120,"color":"6"},
+		{"id":"f426d1b24760d803","type":"text","text":"感染过程中的信号转导","x":960,"y":10,"width":250,"height":60,"color":"1"},
+		{"id":"3fbc958c52961ea5","type":"text","text":"病原感染与共生感染的关系","x":-403,"y":520,"width":250,"height":60,"color":"5"},
+		{"id":"f85c617514cf7703","type":"text","text":"共生信号转导的进化","x":-403,"y":-439,"width":250,"height":60,"color":"2"},
+		{"id":"5245c2b8c05842b3","type":"file","file":"文献阅读/Speak，Friend，Entry means....md","x":-800,"y":-70,"width":286,"height":260},
+		{"id":"4e47ed62ac5ce98b","type":"file","file":"文献阅读/LysM 受体样激酶的识别.canvas","x":393,"y":-219,"width":495,"height":199},
+		{
+			"id":"876d24961c60c9cd",
+			"type":"text",
+			"text":"#moc \n[Speak, friend, and enter: signalling systems that promote beneficial symbiotic associations in plants | Nature Reviews Microbiology](https://www.nature.com/articles/nrmicro2990)",
+			"styleAttributes":{},
+			"x":-560,
+			"y":-720,
+			"width":453,
+			"height":160,
+			"color":"6"
+		}
+	],
+	"edges":[
+		{"id":"2f199c3802b70a59","fromNode":"5245c2b8c05842b3","fromSide":"right","toNode":"718c51e759810fef","toSide":"left"},
+		{"id":"1519bfe3b041172a","fromNode":"718c51e759810fef","fromSide":"right","toNode":"69fed9ab3bdca077","toSide":"left"},
+		{"id":"ed6a4d46192d5310","fromNode":"718c51e759810fef","fromSide":"right","toNode":"869ed37cb948020e","toSide":"left"},
+		{"id":"d1fe86cc1a961b2c","fromNode":"718c51e759810fef","fromSide":"right","toNode":"b376c6fa5a210996","toSide":"left"},
+		{"id":"b99daa2ac52e3c4e","fromNode":"718c51e759810fef","fromSide":"right","toNode":"8ce05fb2ff7a3bad","toSide":"left"},
+		{"id":"af2c728dc7435bdb","fromNode":"69fed9ab3bdca077","fromSide":"right","toNode":"d519cbb0334fd77b","toSide":"left"},
+		{"id":"c2d1afbc2a73f267","fromNode":"869ed37cb948020e","fromSide":"right","toNode":"4e47ed62ac5ce98b","toSide":"left"},
+		{"id":"879dae972428dcc2","fromNode":"d519cbb0334fd77b","fromSide":"right","toNode":"bc7e11741c92775f","toSide":"top"},
+		{"id":"17505b6a55befb7c","fromNode":"bc7e11741c92775f","fromSide":"bottom","toNode":"4e47ed62ac5ce98b","toSide":"right"},
+		{"id":"8915ae405f86349a","fromNode":"718c51e759810fef","fromSide":"bottom","toNode":"3fbc958c52961ea5","toSide":"top"},
+		{"id":"29db6e8db0dcfc66","fromNode":"b376c6fa5a210996","fromSide":"right","toNode":"0bcbe4f1a7123519","toSide":"left"},
+		{"id":"4061abdbeb3c2842","fromNode":"4e47ed62ac5ce98b","fromSide":"right","toNode":"f5742f9d063173bd","toSide":"top"},
+		{"id":"e847132ef925c1eb","fromNode":"f5742f9d063173bd","fromSide":"bottom","toNode":"0bcbe4f1a7123519","toSide":"right"},
+		{"id":"e7e1ead558d74ef1","fromNode":"8ce05fb2ff7a3bad","fromSide":"right","toNode":"e561ad02e8a1ba6f","toSide":"left"},
+		{"id":"fc9a680d56b4b06d","fromNode":"0bcbe4f1a7123519","fromSide":"right","toNode":"2b34f136b889e519","toSide":"top"},
+		{"id":"416f1500c9e38078","fromNode":"2b34f136b889e519","fromSide":"bottom","toNode":"e561ad02e8a1ba6f","toSide":"right"},
+		{"id":"8a64b73870db7bae","fromNode":"f426d1b24760d803","fromSide":"left","toNode":"0bcbe4f1a7123519","toSide":"right"},
+		{"id":"18a208405e5df772","fromNode":"f426d1b24760d803","fromSide":"left","toNode":"4e47ed62ac5ce98b","toSide":"right"},
+		{"id":"4fd8780696327cfd","fromNode":"f426d1b24760d803","fromSide":"left","toNode":"d519cbb0334fd77b","toSide":"right"},
+		{"id":"9850201f6e4250f8","fromNode":"718c51e759810fef","fromSide":"top","toNode":"f85c617514cf7703","toSide":"bottom"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

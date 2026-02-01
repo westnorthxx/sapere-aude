@@ -1,0 +1,32 @@
+{
+	"nodes":[
+		{"id":"fac0b3ecebbfb6f3","x":-617,"y":241,"width":357,"height":60,"type":"text","text":"侵染袋确保一个封闭，稳定的酶促反应空间"},
+		{"id":"9d2d4cfd01c41d49","x":-160,"y":181,"width":250,"height":60,"type":"text","text":"果胶甲酯酶"},
+		{"id":"582a0baed5e2689d","x":-160,"y":301,"width":250,"height":60,"type":"text","text":"多聚半乳糖醛酸酶"},
+		{"id":"a41a40d043d7e0ed","x":-160,"y":480,"width":250,"height":60,"color":"3","type":"text","text":"植物源、菌源或皆有之"},
+		{"id":"e6b77d1377ccab59","x":-160,"y":40,"width":250,"height":60,"type":"text","text":"同源酶也在花粉管生长中表达"},
+		{"id":"4a5a5cd78c17b3a2","x":-185,"y":-100,"width":300,"height":60,"color":"3","type":"text","text":"IT 与花粉管在极性生长上的统一性"},
+		{"id":"747d9bc4f1b14b79","x":175,"y":480,"width":250,"height":60,"type":"text","text":"降解细胞壁"},
+		{"id":"65a59f75961d65ad","x":550,"y":480,"width":250,"height":60,"type":"text","text":"分解抑制感染的纤维素（细菌）"},
+		{"id":"563c2fdd5e84a880","x":360,"y":660,"width":250,"height":60,"type":"text","text":"菌源纤维素酶"},
+		{"id":"a1f39182c04b51d0","x":360,"y":241,"width":250,"height":60,"type":"text","text":"在膜局部分泌并降解细胞壁"},
+		{"id":"9970246cd598cccf","type":"text","text":"核心：降解细胞壁 i.e. 酶系统","x":-617,"y":40,"width":260,"height":60,"color":"1"}
+	],
+	"edges":[
+		{"id":"0c90501ad0cbd8ed","fromNode":"a41a40d043d7e0ed","fromSide":"top","toNode":"582a0baed5e2689d","toSide":"bottom"},
+		{"id":"9012366eec326596","fromNode":"fac0b3ecebbfb6f3","fromSide":"right","toNode":"9d2d4cfd01c41d49","toSide":"left"},
+		{"id":"bc2ffe3898398696","fromNode":"fac0b3ecebbfb6f3","fromSide":"right","toNode":"582a0baed5e2689d","toSide":"left"},
+		{"id":"a68ea2c8fc7d880f","fromNode":"9d2d4cfd01c41d49","fromSide":"top","toNode":"e6b77d1377ccab59","toSide":"bottom"},
+		{"id":"afc16070715d192a","fromNode":"e6b77d1377ccab59","fromSide":"top","toNode":"4a5a5cd78c17b3a2","toSide":"bottom"},
+		{"id":"b1cbaafe8ed5d074","fromNode":"9d2d4cfd01c41d49","fromSide":"right","toNode":"a1f39182c04b51d0","toSide":"left"},
+		{"id":"161c8523bd36eead","fromNode":"582a0baed5e2689d","fromSide":"right","toNode":"a1f39182c04b51d0","toSide":"left"},
+		{"id":"92d2ab259e46c654","fromNode":"563c2fdd5e84a880","fromSide":"top","toNode":"747d9bc4f1b14b79","toSide":"bottom","label":"？"},
+		{"id":"38366c659f4c180c","fromNode":"563c2fdd5e84a880","fromSide":"top","toNode":"65a59f75961d65ad","toSide":"bottom","label":"？"},
+		{"id":"19252a17da002a23","fromNode":"747d9bc4f1b14b79","fromSide":"top","toNode":"a1f39182c04b51d0","toSide":"bottom"},
+		{"id":"d067bd5d962030fc","fromNode":"65a59f75961d65ad","fromSide":"top","toNode":"a1f39182c04b51d0","toSide":"bottom"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

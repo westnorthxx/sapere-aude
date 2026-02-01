@@ -1,0 +1,27 @@
+{
+	"nodes":[
+		{"id":"e336086307c0966a","type":"group","x":-620,"y":160,"width":720,"height":120,"label":"信号持续性"},
+		{"id":"6141775ff5bc6e71","type":"text","text":"细菌源 LPO","x":-560,"y":-170,"width":250,"height":60},
+		{"id":"c37bea04cbe19f97","type":"text","text":"真菌源 LPO","x":-560,"y":-50,"width":250,"height":60},
+		{"id":"b6ddbe1b17b6cc38","type":"text","text":"结瘤因子 NF","x":-218,"y":-170,"width":250,"height":60},
+		{"id":"fa38f904ae49158c","type":"text","text":"Myc 因子","x":-218,"y":-50,"width":250,"height":60},
+		{"id":"a5f9dc6305911230","type":"file","file":"文献阅读/LCO：微生物源的共生信号.md","x":182,"y":-240,"width":400,"height":320},
+		{"id":"3948e1097c707df5","type":"text","text":"LPOs","x":-940,"y":-110,"width":250,"height":60},
+		{"id":"ee219015f83de358","type":"text","text":"NF 在侵染过程中持续合成，止于细菌进入根瘤细胞","x":-600,"y":180,"width":250,"height":60},
+		{"id":"0a9d203eb775a8b3","type":"text","text":"NF 信号用于识别与侵染过程指导","x":-220,"y":180,"width":300,"height":60}
+	],
+	"edges":[
+		{"id":"3de46b7b586f21e7","fromNode":"6141775ff5bc6e71","fromSide":"right","toNode":"b6ddbe1b17b6cc38","toSide":"left"},
+		{"id":"3bf5915e1be86705","fromNode":"c37bea04cbe19f97","fromSide":"right","toNode":"fa38f904ae49158c","toSide":"left"},
+		{"id":"cf8a2da32112632f","fromNode":"b6ddbe1b17b6cc38","fromSide":"right","toNode":"a5f9dc6305911230","toSide":"left"},
+		{"id":"9a84412edfd5410c","fromNode":"fa38f904ae49158c","fromSide":"right","toNode":"a5f9dc6305911230","toSide":"left"},
+		{"id":"07f039edeecd2326","fromNode":"3948e1097c707df5","fromSide":"right","toNode":"6141775ff5bc6e71","toSide":"left"},
+		{"id":"794a64feaa518e3f","fromNode":"3948e1097c707df5","fromSide":"right","toNode":"c37bea04cbe19f97","toSide":"left"},
+		{"id":"23bfe738756defde","fromNode":"ee219015f83de358","fromSide":"right","toNode":"0a9d203eb775a8b3","toSide":"left"},
+		{"id":"a388fdde073d1587","fromNode":"3948e1097c707df5","fromSide":"bottom","toNode":"e336086307c0966a","toSide":"left"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}
