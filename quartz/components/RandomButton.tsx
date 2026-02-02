@@ -13,38 +13,26 @@ const RandomButton: QuartzComponent = ({ displayClass }: QuartzComponentProps) =
 }
 
 RandomButton.afterDOMLoaded = `
-  function normalizePath(...parts) {
-    // 连接路径并规范化斜杠
-    return parts
-      .filter(p => p && p !== "/")
-      .join("/")
-      .replace(/\\/+/g, "/")
-      .replace(/^\\//, "");
+  // 使用 Quartz 的路径解析函数（从 util.ts 复制）
+  function resolveUrl(currentSlug, targetSlug) {
+    const current = currentSlug.split("/").filter(x => x !== "");
+    const target = targetSlug.split("/").filter(x => x !== "");
+
+    // 计算需要返回多少级
+    const backtracks = current.length;
+    const relativePath = "../".repeat(backtracks) + target.join("/");
+
+    return relativePath || "./";
   }
 
   document.querySelectorAll('.random-button').forEach(button => {
     button.addEventListener('click', async () => {
       try {
-        // 1. 获取 baseUrl（子路径前缀）
-        let baseUrl = document.documentElement.dataset.baseurl || "";
-        if (baseUrl === "/") baseUrl = "";
+        // 1. 使用 Quartz 提供的全局 fetchData（已经在页面中定义）
+        console.log("Loading content index...");
+        const index = await fetchData;
 
-        // 2. 构建 contentIndex.json 的完整路径
-        // 使用相对路径从根目录获取，更可靠
-        const indexPath = baseUrl
-          ? "/" + normalizePath(baseUrl, "static/contentIndex.json")
-          : "/static/contentIndex.json";
-
-        console.log("Fetching content index from:", indexPath);
-        const response = await fetch(indexPath);
-
-        if (!response.ok) {
-          throw new Error(\`Failed to fetch index: \${response.status} \${response.statusText}\`);
-        }
-
-        const index = await response.json();
-
-        // 3. 过滤出所有有效的文章 slug
+        // 2. 过滤出所有有效的文章 slug
         const slugList = Object.keys(index).filter(slug => {
           return slug !== "index" && !slug.startsWith("tags/") && !slug.includes("#");
         });
@@ -52,14 +40,17 @@ RandomButton.afterDOMLoaded = `
         console.log(\`Found \${slugList.length} articles\`);
 
         if (slugList.length > 0) {
-          // 4. 随机选择一篇文章
+          // 3. 随机选择一篇文章
           const randomSlug = slugList[Math.floor(Math.random() * slugList.length)];
-          console.log("Navigating to:", randomSlug);
+          console.log("Selected random article:", randomSlug);
 
-          // 5. 构建目标 URL
-          const targetPath = baseUrl
-            ? "/" + normalizePath(baseUrl, randomSlug)
-            : "/" + randomSlug;
+          // 4. 获取当前页面的 slug
+          const currentSlug = document.body.dataset.slug || "index";
+          console.log("Current slug:", currentSlug);
+
+          // 5. 使用相对路径导航
+          const targetPath = resolveUrl(currentSlug, randomSlug);
+          console.log("Navigating to:", targetPath);
 
           window.location.href = targetPath;
         } else {
