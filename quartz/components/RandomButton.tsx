@@ -16,45 +16,44 @@ RandomButton.afterDOMLoaded = `
   document.querySelectorAll('.random-button').forEach(button => {
     button.addEventListener('click', async () => {
       try {
-        // 1. 获取基础 URL，处理 GitHub Pages 子路径
-        const baseUrl = document.documentElement.dataset.baseurl || ""
-        const prefix = baseUrl ? "/" + baseUrl : ""
+        // 1. 动态获取 Base URL (例如 "sapere-aude")
+        let baseUrl = document.documentElement.dataset.baseurl || "";
+        if (baseUrl === "/") baseUrl = "";
         
-        // 2. 使用相对路径请求，增加对 contentIndex.json 的探测
-        // 既然你在 static 下看到了它，我们优先请求 static/contentIndex.json
-        const response = await fetch("./static/contentIndex.json")
+        // 2. 构造绝对 Fetch 路径 (不管你在哪个页面，都从域名根部找)
+        // 结果类似: https://westnorthxx.github.io/sapere-aude/static/contentIndex.json
+        const urlPrefix = baseUrl ? "/" + baseUrl : "";
+        const fetchUrl = window.location.origin + urlPrefix + "/static/contentIndex.json";
         
-        if (!response.ok) throw new Error('未能获取到索引文件');
+        console.log("Fetching index from:", fetchUrl);
+        const response = await fetch(fetchUrl);
+        
+        if (!response.ok) throw new Error('Index not found at ' + fetchUrl);
         
         const index = await response.json();
-        
-        // 3. 提取所有合法的笔记路径 (slug)
         const slugList = Object.keys(index).filter(slug => {
-          return slug !== "index" && 
-                 !slug.startsWith("tags/") && 
-                 !slug.includes("#"); // 排除锚点链接
+          return slug !== "index" && !slug.startsWith("tags/") && !slug.includes("#");
         });
 
         if (slugList.length > 0) {
           const randomSlug = slugList[Math.floor(Math.random() * slugList.length)];
           
-          // 4. 构建最终跳转地址
-          // 确保不会出现双斜杠，并适配单页面应用(SPA)的路径
-          const finalPath = prefix + "/" + randomSlug
-          window.location.href = finalPath;
+          // 3. 构造绝对跳转路径
+          // 结果类似: https://westnorthxx.github.io/sapere-aude/Bioinformatics/Target-Note
+          const finalUrl = window.location.origin + urlPrefix + "/" + randomSlug;
+          
+          // 清理可能产生的双斜杠并跳转
+          const cleanUrl = finalUrl.replace(/([^:]\\/)\\/+/g, "$1");
+          console.log("Redirecting to:", cleanUrl);
+          window.location.href = cleanUrl;
         }
       } catch (err) {
         console.error("随机跳转失败:", err);
-        
-        // 5. Fallback: 如果 Fetch 失败，从当前页面的侧边栏或正文抓取
-        const internalLinks = Array.from(document.querySelectorAll('a.internal'))
-          .filter(a => {
-            const href = a.getAttribute('href');
-            return href && !href.startsWith('#') && !href.includes(window.location.pathname);
-          });
-        
-        if (internalLinks.length > 0) {
-          window.location.href = internalLinks[Math.floor(Math.random() * internalLinks.length)].href;
+        // Fallback: 依然失败时，尝试从当前页面抓取一个 internal 链接
+        const links = Array.from(document.querySelectorAll('a.internal'))
+          .filter(a => !a.getAttribute('href').startsWith('#'));
+        if (links.length > 0) {
+          window.location.href = links[Math.floor(Math.random() * links.length)].href;
         }
       }
     });
