@@ -16,38 +16,45 @@ RandomButton.afterDOMLoaded = `
   document.querySelectorAll('.random-button').forEach(button => {
     button.addEventListener('click', async () => {
       try {
-        // 1. 自动获取子路径前缀
-        // 如果是在 westnorthxx.github.io/sapere-aude/ 下，data-baseurl 通常是 "sapere-aude"
-        let baseUrl = document.documentElement.dataset.baseurl || "";
-        if (baseUrl === "/") baseUrl = "";
-        const urlPrefix = baseUrl ? "/" + baseUrl : "";
-
-        // 2. 绝对路径获取索引
-        const response = await fetch(window.location.origin + urlPrefix + "/static/contentIndex.json");
-        if (!response.ok) throw new Error('Index not found');
+        // 1. 获取基础 URL，处理 GitHub Pages 子路径
+        const baseUrl = document.documentElement.dataset.baseurl || ""
+        const prefix = baseUrl ? "/" + baseUrl : ""
+        
+        // 2. 使用相对路径请求，增加对 contentIndex.json 的探测
+        // 既然你在 static 下看到了它，我们优先请求 static/contentIndex.json
+        const response = await fetch("./static/contentIndex.json")
+        
+        if (!response.ok) throw new Error('未能获取到索引文件');
         
         const index = await response.json();
+        
+        // 3. 提取所有合法的笔记路径 (slug)
         const slugList = Object.keys(index).filter(slug => {
-          return slug !== "index" && !slug.startsWith("tags/") && !slug.includes("#");
+          return slug !== "index" && 
+                 !slug.startsWith("tags/") && 
+                 !slug.includes("#"); // 排除锚点链接
         });
 
         if (slugList.length > 0) {
           const randomSlug = slugList[Math.floor(Math.random() * slugList.length)];
           
-          // 3. 核心：使用 window.location.origin 确保从最顶层开始构建
-          // 结果类似于：https://westnorthxx.github.io/sapere-aude/notes/my-random-note
-          const finalUrl = window.location.origin + urlPrefix + "/" + randomSlug;
-          
-          // 替换掉可能连在一起的多个斜杠
-          window.location.href = finalUrl.replace(/([^:]\\/)\\/+/g, "$1");
+          // 4. 构建最终跳转地址
+          // 确保不会出现双斜杠，并适配单页面应用(SPA)的路径
+          const finalPath = prefix + "/" + randomSlug
+          window.location.href = finalPath;
         }
       } catch (err) {
         console.error("随机跳转失败:", err);
-        // Fallback: 如果出错，尝试寻找带子路径的 internal 链接
-        const links = Array.from(document.querySelectorAll('a.internal'))
-          .filter(a => !a.getAttribute('href').startsWith('#'));
-        if (links.length > 0) {
-          window.location.href = links[Math.floor(Math.random() * links.length)].href;
+        
+        // 5. Fallback: 如果 Fetch 失败，从当前页面的侧边栏或正文抓取
+        const internalLinks = Array.from(document.querySelectorAll('a.internal'))
+          .filter(a => {
+            const href = a.getAttribute('href');
+            return href && !href.startsWith('#') && !href.includes(window.location.pathname);
+          });
+        
+        if (internalLinks.length > 0) {
+          window.location.href = internalLinks[Math.floor(Math.random() * internalLinks.length)].href;
         }
       }
     });
