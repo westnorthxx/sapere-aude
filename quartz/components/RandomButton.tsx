@@ -23,7 +23,7 @@ RandomButton.afterDOMLoaded = `
         // 2. 构造绝对 Fetch 路径 (不管你在哪个页面，都从域名根部找)
         // 结果类似: https://westnorthxx.github.io/sapere-aude/static/contentIndex.json
         const urlPrefix = baseUrl ? "/" + baseUrl : "";
-        const fetchUrl = "https://westnorthxx.github.io/static/contentIndex.json";
+        const fetchUrl = "https://westnorthxx.github.io/sapere-aude/static/contentIndex.json";
         
         console.log("Fetching index from:", fetchUrl);
         const response = await fetch(fetchUrl);
