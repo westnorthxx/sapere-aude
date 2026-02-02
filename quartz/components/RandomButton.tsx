@@ -13,29 +13,44 @@ const RandomButton: QuartzComponent = ({ displayClass }: QuartzComponentProps) =
 }
 
 RandomButton.afterDOMLoaded = `
-  document.getElementById('random-button')?.addEventListener('click', async () => {
-    try {
-      const response = await fetch('/static/contentIndex.json');
-      if (!response.ok) throw new Error('Index not found');
-      
-      const index = await response.json();
-      const slugList = Object.keys(index).filter(slug => {
-        return slug !== "index" && !slug.startsWith("tags/");
-      });
+  document.querySelectorAll('.random-button').forEach(button => {
+    button.addEventListener('click', async () => {
+      try {
+        // 1. 获取基础路径。Quartz 4 在 SPA 模式下通常能通过 dataset 获取 baseurl
+        const baseUrl = document.documentElement.dataset.baseurl || ""
+        const fullUrl = baseUrl + "/index.json" // Quartz 默认生成的索引文件
 
-      if (slugList.length > 0) {
-        const randomSlug = slugList[Math.floor(Math.random() * slugList.length)];
-        const baseUrl = window.location.origin;
-        window.location.href = baseUrl + "/" + randomSlug;
+        const response = await fetch(fullUrl)
+        if (!response.ok) throw new Error('Index not found at ' + fullUrl)
+        
+        const index = await response.json()
+        
+        // 2. 过滤掉非笔记内容
+        const slugList = Object.keys(index).filter(slug => {
+          return slug !== "index" && 
+                 !slug.startsWith("tags/") && 
+                 !slug.includes("#")
+        })
+
+        if (slugList.length > 0) {
+          const randomSlug = slugList[Math.floor(Math.random() * slugList.length)]
+          // 3. 跳转。注意处理斜杠，确保路径正确
+          window.location.href = (baseUrl ? "/" + baseUrl : "") + "/" + randomSlug
+        }
+      } catch (err) {
+        console.error("随机跳转失败:", err)
+        // 改良后的 Fallback：只在真正的内部链接中随机跳转，排除锚点
+        const internalLinks = Array.from(document.querySelectorAll('a.internal'))
+          .filter(a => {
+            const href = a.getAttribute('href')
+            return href && !href.startsWith('#') && !href.includes(window.location.pathname)
+          })
+        
+        if (internalLinks.length > 0) {
+          window.location.href = internalLinks[Math.floor(Math.random() * internalLinks.length)].href
+        }
       }
-    } catch (err) {
-      console.error("Random jump failed:", err);
-      // 纯 JS 环境下不需要 'as' 类型断言
-      const fallbackLinks = Array.from(document.querySelectorAll('a.internal'));
-      if (fallbackLinks.length > 0) {
-        window.location.href = fallbackLinks[Math.floor(Math.random() * fallbackLinks.length)].href;
-      }
-    }
+    })
   })
 `
 
