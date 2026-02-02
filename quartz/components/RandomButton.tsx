@@ -16,44 +16,54 @@ RandomButton.afterDOMLoaded = `
   document.querySelectorAll('.random-button').forEach(button => {
     button.addEventListener('click', async () => {
       try {
-        // 1. 自动识别 GitHub Pages 的子路径
-        // 如果当前路径包含 /sapere-aude/，则将其提取为前缀
-        const pathSegments = window.location.pathname.split('/');
-        const repoName = 'sapere-aude';
-        const isGithubPages = pathSegments.includes(repoName);
-        const prefix = isGithubPages ? '/' + repoName : '';
+        // --- 硬编码配置区域 ---
+        const REPO_NAME = 'sapere-aude'; 
+        // -----------------------
 
-        // 2. 构造 fetchUrl (结果应该是 /sapere-aude/static/contentIndex.json)
-        const fetchUrl = \`\${prefix}/static/contentIndex.json\`.replace(/\\/\\//g, "/");
+        const prefix = \`/\${REPO_NAME}\`;
+        const fetchUrl = \`\${prefix}/static/contentIndex.json\`;
         
-        console.log("正在获取索引:", fetchUrl);
+        console.log("正在发起请求:", fetchUrl);
+        
         const response = await fetch(fetchUrl);
-        
         if (!response.ok) throw new Error('无法获取索引文件: ' + fetchUrl);
         
         const index = await response.json();
+        
+        // 过滤掉索引页、标签页和附件/锚点
         const slugList = Object.keys(index).filter(slug => {
-          // 排除掉主页、标签页和锚点
-          return slug !== "index" && !slug.startsWith("tags/") && !slug.includes("#");
+          return slug !== "index" && 
+                 !slug.startsWith("tags/") && 
+                 !slug.includes("#") &&
+                 !slug.includes(".png") && 
+                 !slug.includes(".jpg");
         });
 
         if (slugList.length > 0) {
           const randomSlug = slugList[Math.floor(Math.random() * slugList.length)];
           
-          // 3. 构造跳转路径 (必须包含仓库名前缀)
+          // 构造目标路径：/sapere-aude/文章路径
           const targetPath = \`\${prefix}/\${randomSlug}\`.replace(/\\/\\//g, "/");
           
           console.log("随机跳转至:", targetPath);
           
-          // 使用 SPA 导航以获得丝滑体验
+          // 优先使用 Quartz 的 SPA 导航，无缝切换
           if (window.spaNavigate) {
             window.spaNavigate(new URL(targetPath, window.location.origin));
           } else {
             window.location.href = targetPath;
           }
+        } else {
+          console.warn("索引列表为空，无法跳转");
         }
       } catch (err) {
         console.error("随机跳转失败:", err);
+        // 如果 fetch 失败（比如 Tracking Prevention），尝试从页面现有链接跳转作为兜底
+        const internalLinks = Array.from(document.querySelectorAll('a.internal'));
+        if (internalLinks.length > 0) {
+          const randomLink = internalLinks[Math.floor(Math.random() * internalLinks.length)];
+          randomLink.click();
+        }
       }
     })
   })
