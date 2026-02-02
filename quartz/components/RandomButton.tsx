@@ -16,41 +16,44 @@ RandomButton.afterDOMLoaded = `
   document.querySelectorAll('.random-button').forEach(button => {
     button.addEventListener('click', async () => {
       try {
-        // 1. 自动获取当前站点的 Base Path (处理 GitHub Pages 仓库名路径)
-        // Quartz 会在 <html> 标签上挂载 data-baseurl
+        // 1. 获取 Quartz 自动注入的基础路径 (对应 quartz.config.ts 中的 baseUrl)
+        // 它的值通常是 "sapere-aude" 或者为空
         let baseUrl = document.documentElement.dataset.baseurl || "";
-        // 确保 baseUrl 以 / 开头，但不以 / 结尾
-        const urlPrefix = baseUrl.startsWith("/") ? baseUrl : "/" + baseUrl;
-        const cleanPrefix = urlPrefix === "/" ? "" : urlPrefix.replace(/\\/$/, "");
-
-        // 2. 构造【相对根路径】请求
-        // 这样浏览器会视其为“同源”，能极大程度避免 Tracking Prevention 报错
-        const fetchUrl = \`\${cleanPrefix}/static/contentIndex.json\`;
         
-        console.log("Fetching index from:", fetchUrl);
+        // 2. 构造正确的相对路径
+        // 我们不使用 window.location.origin，而是使用以 / 开头的绝对路径名
+        // 这样可以确保不管用户在哪个子页面，都能回到站点根部找 static 文件夹
+        const rootPath = baseUrl && baseUrl !== "/" 
+          ? (baseUrl.startsWith("/") ? baseUrl : "/" + baseUrl) 
+          : "";
+          
+        const fetchUrl = \`\${rootPath}/static/contentIndex.json\`.replace(/\\/\\//g, "/");
+        
+        console.log("正在获取索引:", fetchUrl);
         const response = await fetch(fetchUrl);
         
-        if (!response.ok) throw new Error('Index not found at ' + fetchUrl);
+        if (!response.ok) throw new Error('无法获取索引文件: ' + fetchUrl);
         
         const index = await response.json();
         const slugList = Object.keys(index).filter(slug => {
-          // 过滤掉索引页、标签页和锚点链接
+          // 排除主页和特殊页面
           return slug !== "index" && !slug.startsWith("tags/") && !slug.includes("#");
         });
 
         if (slugList.length > 0) {
           const randomSlug = slugList[Math.floor(Math.random() * slugList.length)];
           
-          // 3. 构造跳转路径 (使用 SPA 导航以获得更好的体验)
-          const finalUrl = \`\${cleanPrefix}/\${randomSlug}\`.replace(/\\/\\//g, "/");
+          // 3. 构造跳转 URL
+          // 加上 rootPath 确保 GitHub Pages 子路径正确
+          const targetPath = \`\${rootPath}/\${randomSlug}\`.replace(/\\/\\//g, "/");
           
-          console.log("Redirecting to:", finalUrl);
+          console.log("随机跳转至:", targetPath);
           
           // 如果 Quartz 的 SPA 路由可用，优先使用
           if (window.spaNavigate) {
-            window.spaNavigate(new URL(finalUrl, window.location.origin));
+            window.spaNavigate(new URL(targetPath, window.location.origin));
           } else {
-            window.location.href = finalUrl;
+            window.location.href = targetPath;
           }
         }
       } catch (err) {
