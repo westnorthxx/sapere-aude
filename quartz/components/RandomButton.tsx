@@ -16,14 +16,14 @@ RandomButton.afterDOMLoaded = `
   document.querySelectorAll('.random-button').forEach(button => {
     button.addEventListener('click', async () => {
       try {
-        // 1. 获取 Quartz 自动识别的 Base URL
-        // 在你的环境下，dataset.baseurl 通常会是 "sapere-aude"
-        const baseUrl = document.documentElement.dataset.baseurl || "";
-        
-        // 2. 尝试从 static 目录获取索引文件
-        const indexPath = "./static/contentIndex.json";
-        const response = await fetch(indexPath);
-        
+        // 1. 自动获取子路径前缀
+        // 如果是在 westnorthxx.github.io/sapere-aude/ 下，data-baseurl 通常是 "sapere-aude"
+        let baseUrl = document.documentElement.dataset.baseurl || "";
+        if (baseUrl === "/") baseUrl = "";
+        const urlPrefix = baseUrl ? "/" + baseUrl : "";
+
+        // 2. 绝对路径获取索引
+        const response = await fetch(window.location.origin + urlPrefix + "/static/contentIndex.json");
         if (!response.ok) throw new Error('Index not found');
         
         const index = await response.json();
@@ -34,19 +34,16 @@ RandomButton.afterDOMLoaded = `
         if (slugList.length > 0) {
           const randomSlug = slugList[Math.floor(Math.random() * slugList.length)];
           
-          // 3. 构建完整的跳转路径
-          // 如果 baseUrl 存在，则拼接为 /baseUrl/randomSlug；否则直接 /randomSlug
-          // 这样可以确保在本地 localhost 和 GitHub 子路径下都有效
-          const finalPath = baseUrl 
-            ? \`/\${baseUrl}/\${randomSlug}\` 
-            : \`/\${randomSlug}\`;
-
-          // 处理可能出现的双斜杠问题并跳转
-          window.location.href = window.location.origin + finalPath.replace(/\\/\\//g, '/');
+          // 3. 核心：使用 window.location.origin 确保从最顶层开始构建
+          // 结果类似于：https://westnorthxx.github.io/sapere-aude/notes/my-random-note
+          const finalUrl = window.location.origin + urlPrefix + "/" + randomSlug;
+          
+          // 替换掉可能连在一起的多个斜杠
+          window.location.href = finalUrl.replace(/([^:]\\/)\\/+/g, "$1");
         }
       } catch (err) {
         console.error("随机跳转失败:", err);
-        // Fallback: 依然缺子路径的话，手动从 a.internal 获取
+        // Fallback: 如果出错，尝试寻找带子路径的 internal 链接
         const links = Array.from(document.querySelectorAll('a.internal'))
           .filter(a => !a.getAttribute('href').startsWith('#'));
         if (links.length > 0) {
