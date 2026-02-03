@@ -146,3 +146,76 @@ article h3, .popover-hint h3 {
   color: var(--secondary);
   font-weight: 600;
 }
+
+// --- Academic & Organic Refinements ---
+
+// 代码块美化
+code {
+  font-size: 0.9em;
+  border-radius: 4px;
+  padding: 0.2em 0.4em;
+  background-color: var(--highlight);
+  font-family: var(--codeFont);
+}
+
+pre > code {
+  display: block;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] pre > code {
+  background-color: #1a1e21 !important;
+  border-color: #2d353b;
+}
+
+// 外部链接标识
+a[href^="http"]:not([href*="westnorthxx.github.io"])::after {
+  content: " ↗";
+  font-size: 0.8em;
+  vertical-align: super;
+  opacity: 0.6;
+}
+
+// Callout (提示块) 优化
+.callout {
+  border-radius: 8px;
+  border: 1px solid var(--lightgray);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin: 1.5rem 0;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateX(4px);
+  }
+
+  .callout-title {
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    font-family: var(--headerFont);
+    border-radius: 8px 8px 0 0;
+  }
+
+  .callout-content {
+    padding: 0.8rem 1.2rem;
+  }
+}
+
+// 针对 Graph View 的容器美化
+.graph {
+  border: 1px solid var(--lightgray);
+  border-radius: 12px;
+  margin: 2rem 0;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+// 全局平滑滚动
+html {
+  scroll-behavior: smooth;
+}
+
