@@ -15,7 +15,7 @@ const config: QuartzConfig = {
     analytics: {
       provider: "plausible",
     },
-    locale: "en-US",
+    locale: "zh-CN",
     baseUrl: "westnorthxx.github.io/sapere-aude",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
