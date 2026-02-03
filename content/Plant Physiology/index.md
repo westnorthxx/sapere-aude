@@ -1,5 +1,5 @@
 ---
-title: 高级植物生理学-学习笔记
+title: 高级植物生理学
 comments: false
 ---
 
