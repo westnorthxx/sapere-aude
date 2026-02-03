@@ -5,7 +5,26 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [
+    Component.Comments({
+      provider: 'giscus',
+      options: {
+        // from data-repo
+        repo: 'westnorthxx/sapere-aude',
+        // from data-repo-id
+        repoId: 'R_kgDORFUJGw',
+        // from data-category
+        category: 'Announcements',
+        // from data-category-id
+        categoryId: 'DIC_kwDORFUJG84C1zBq',
+        // from data-lang
+        lang: 'zh-CN',
+        themeUrl: "https://westnorthxx.github.io/sapere-aude/static/giscus",
+        lightTheme: "light",
+        darkTheme: "dark",
+      }
+    }),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/jackyzha0/quartz",
