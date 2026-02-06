@@ -15,7 +15,17 @@ export default ((opts?: Options) => {
       <footer class={`${displayClass ?? ""}`}>
         {/* 新增的版权声明部分 */}
         <p>
-          © {year} <b>westnorth</b>. 保留所有权利。
+          © {year} <b>westnorth</b>.
+          <br />
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+            <img 
+              alt="Creative Commons License" 
+              style={{ borderWidth: 0, opacity: 0.8, marginTop: "0.5rem" }} 
+              src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" 
+            />
+          </a>
+          <br />
+          除非另有说明，本站内容采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。
         </p>
         
         {/* 新增的邮箱联系方式 */}
